@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Belegmanager</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&display=swap');
+
+:root {
+  --bg: #f7f5f0;
+  --surface: #ffffff;
+  --surface2: #f0ede6;
+  --border: #e2ddd5;
+  --text: #1a1916;
+  --muted: #7a776e;
+  --dim: #b0aca3;
+  --green: #2d6a4f;
+  --green-light: #e8f5ee;
+  --green-mid: #52b788;
+  --warn: #e07c3a;
+  --radius: 14px;
+  --shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body { font-family: 'DM Mono', monospace; background: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: 48px; }
+
+.header {
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  padding: 16px 20px; display: flex; align-items: center; gap: 12px;
+  position: sticky; top: 0; z-index: 10;
+}
+.logo { width: 36px; height: 36px; background: var(--green); border-radius: 9px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.logo svg { width: 19px; height: 19px; fill: white; }
+.header-text h1 { font-family: 'Instrument Serif', serif; font-size: 19px; font-weight: 400; letter-spacing: -0.3px; }
+.header-text p { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.month-badge {
+  margin-left: auto; background: var(--green-light);
+  border: 1px solid rgba(45,106,79,0.2); border-radius: 20px;
+  padding: 5px 11px; font-size: 11px; color: var(--green);
+  font-weight: 500; white-space: nowrap; flex-shrink: 0;
+}
+
+.main { padding: 18px; max-width: 480px; margin: 0 auto; }
+
+/* Config */
+.config {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 15px;
+  margin-bottom: 15px; box-shadow: var(--shadow);
+}
+.config-head {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px;
+  color: var(--muted); margin-bottom: 12px; display: flex; align-items: center; gap: 7px;
+}
+.dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.dot.ok { background: var(--green-mid); }
+.dot.warn { background: var(--warn); }
+
+.cfg-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.cfg-row:last-of-type { margin-bottom: 0; }
+.cfg-lbl { font-size: 11px; color: var(--muted); min-width: 68px; flex-shrink: 0; }
+.cfg-inp {
+  flex: 1; min-width: 0; background: var(--surface2);
+  border: 1px solid var(--border); border-radius: 7px;
+  padding: 7px 10px; font-family: 'DM Mono', monospace;
+  font-size: 11px; color: var(--text); outline: none; transition: border-color 0.15s;
+}
+.cfg-inp:focus { border-color: var(--green); }
+.cfg-inp::placeholder { color: var(--dim); }
+.btn-cfg {
+  background: var(--green); color: white; border: none;
+  border-radius: 7px; padding: 7px 12px;
+  font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500;
+  cursor: pointer; white-space: nowrap; flex-shrink: 0; transition: opacity 0.15s;
+}
+.btn-cfg:hover { opacity: 0.85; }
+
+/* Target folder info */
+.folder-row {
+  background: var(--green-light); border: 1px solid rgba(45,106,79,0.18);
+  border-radius: 10px; padding: 11px 13px; margin-bottom: 15px;
+  display: flex; align-items: center; gap: 10px;
+}
+.folder-row svg { width: 17px; height: 17px; stroke: var(--green); fill: none; stroke-width: 1.5; flex-shrink: 0; }
+.folder-row span { font-size: 12px; color: var(--green); }
+.folder-row strong { font-weight: 500; }
+
+/* Upload zone */
+.upload-zone {
+  background: var(--surface); border: 2px dashed var(--border);
+  border-radius: var(--radius); padding: 38px 20px;
+  text-align: center; cursor: pointer; position: relative;
+  transition: all 0.2s; box-shadow: var(--shadow); margin-bottom: 15px;
+}
+.upload-zone:hover, .upload-zone.over { border-color: var(--green-mid); background: var(--green-light); }
+.upload-zone input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+.cam-icon {
+  width: 50px; height: 50px; background: var(--surface2);
+  border-radius: 14px; margin: 0 auto 14px;
+  display: flex; align-items: center; justify-content: center;
+}
+.cam-icon svg { width: 26px; height: 26px; stroke: var(--green); fill: none; stroke-width: 1.5; }
+.upload-zone h2 { font-family: 'Instrument Serif', serif; font-size: 21px; font-weight: 400; font-style: italic; margin-bottom: 5px; }
+.upload-zone p { font-size: 12px; color: var(--muted); }
+.or-div { display: flex; align-items: center; gap: 10px; margin: 14px 0; font-size: 11px; color: var(--dim); }
+.or-div::before, .or-div::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.btn-gallery {
+  background: var(--surface2); color: var(--text); border: 1px solid var(--border);
+  border-radius: 8px; padding: 9px 16px; font-family: 'DM Mono', monospace;
+  font-size: 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 7px;
+  position: relative; z-index: 1; transition: background 0.15s;
+}
+.btn-gallery:hover { background: var(--border); }
+.btn-gallery svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.5; }
+
+/* Result */
+.result {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+  box-shadow: var(--shadow); margin-bottom: 15px; display: none;
+}
+.result.on { display: block; }
+.preview-img { width: 100%; max-height: 210px; object-fit: contain; background: var(--surface2); display: block; }
+.result-body { padding: 15px; }
+
+.analyzing { display: none; align-items: center; gap: 12px; padding: 12px 0; }
+.analyzing.on { display: flex; }
+.spin {
+  width: 18px; height: 18px; flex-shrink: 0;
+  border: 2px solid var(--border); border-top-color: var(--green);
+  border-radius: 50%; animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.spin-lbl { font-size: 12px; color: var(--muted); }
+
+.info-fields { display: none; }
+.info-fields.on { display: block; }
+
+.fields-row { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-bottom: 9px; }
+.fields-row.full { grid-template-columns: 1fr; }
+.field { background: var(--surface2); border: 1px solid var(--border); border-radius: 9px; padding: 9px 11px; }
+.field label { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--dim); margin-bottom: 4px; }
+.field input { width: 100%; background: transparent; border: none; font-family: 'DM Mono', monospace; font-size: 13px; color: var(--text); outline: none; }
+
+.filename-box { background: var(--green-light); border: 1px solid rgba(45,106,79,0.18); border-radius: 9px; padding: 11px 13px; margin: 11px 0; }
+.filename-lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--green); margin-bottom: 4px; }
+.filename-val { font-size: 12px; color: var(--green); word-break: break-all; line-height: 1.5; }
+
+.btn-analyze {
+  width: 100%; background: var(--green); color: white; border: none;
+  border-radius: 10px; padding: 13px; font-family: 'DM Mono', monospace;
+  font-size: 14px; font-weight: 500; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 9px;
+  margin-top: 12px; transition: opacity 0.15s, transform 0.1s;
+}
+.btn-analyze:hover { opacity: 0.88; }
+.btn-analyze:active { transform: scale(0.98); }
+
+.btn-drive {
+  width: 100%; background: var(--green-mid); color: white; border: none;
+  border-radius: 10px; padding: 13px; font-family: 'DM Mono', monospace;
+  font-size: 14px; font-weight: 500; cursor: pointer;
+  display: none; align-items: center; justify-content: center; gap: 9px;
+  margin-top: 9px; transition: opacity 0.15s, transform 0.1s;
+}
+.btn-drive.on { display: flex; }
+.btn-drive:hover { opacity: 0.88; }
+.btn-drive:active { transform: scale(0.98); }
+.btn-drive:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+.btn-drive svg { width: 17px; height: 17px; stroke: white; fill: none; stroke-width: 2; }
+
+.btn-new {
+  width: 100%; background: none; border: 1px solid var(--border);
+  border-radius: 10px; padding: 10px; font-family: 'DM Mono', monospace;
+  font-size: 12px; color: var(--muted); cursor: pointer; margin-top: 8px;
+  transition: background 0.15s;
+}
+.btn-new:hover { background: var(--surface2); }
+
+/* Recent */
+.section-lbl { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--dim); margin-bottom: 11px; }
+.recent-item {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 11px 13px;
+  display: flex; align-items: center; gap: 11px; margin-bottom: 8px;
+  box-shadow: var(--shadow); animation: fadein 0.3s ease;
+}
+@keyframes fadein { from { opacity:0; transform:translateY(5px); } }
+.ri-icon { width: 32px; height: 32px; flex-shrink: 0; background: var(--green-light); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+.ri-icon svg { width: 15px; height: 15px; stroke: var(--green); fill: none; stroke-width: 1.5; }
+.ri-info { flex: 1; min-width: 0; }
+.ri-info strong { font-size: 12px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ri-info span { font-size: 11px; color: var(--muted); }
+.ri-amount { font-size: 13px; color: var(--green); font-weight: 500; white-space: nowrap; }
+.ri-check { color: var(--green-mid); font-size: 13px; margin-left: 4px; }
+
+/* Toast */
+.toast {
+  position: fixed; bottom: 26px; left: 50%;
+  transform: translateX(-50%) translateY(70px);
+  background: var(--text); color: var(--bg);
+  padding: 10px 18px; border-radius: 100px; font-size: 13px; z-index: 200;
+  white-space: nowrap; max-width: 90vw; overflow: hidden; text-overflow: ellipsis;
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow: 0 4px 18px rgba(0,0,0,0.18);
+}
+.toast.on { transform: translateX(-50%) translateY(0); }
+.toast.ok { background: var(--green); }
+.toast.err { background: #c0392b; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">
+    <svg viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+  </div>
+  <div class="header-text">
+    <h1>Belegmanager</h1>
+    <p>Foto → Analyse → Google Drive</p>
+  </div>
+  <div class="month-badge" id="monthBadge">–</div>
+</div>
+
+<div class="main">
+
+  <!-- Config -->
+  <div class="config">
+    <div class="config-head">
+      <span class="dot" id="cfgDot"></span>
+      Einrichtung
+    </div>
+    <div class="cfg-row">
+      <span class="cfg-lbl">API Key</span>
+      <input class="cfg-inp" type="password" id="inpKey" placeholder="sk-ant-api03-…">
+      <button class="btn-cfg" onclick="saveCfg()">OK</button>
+    </div>
+    <div class="cfg-row">
+      <span class="cfg-lbl">Script URL</span>
+      <input class="cfg-inp" type="url" id="inpUrl" placeholder="https://script.google.com/macros/s/…">
+    </div>
+  </div>
+
+  <!-- Aktueller Zielordner -->
+  <div class="folder-row">
+    <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+    <span>Zielordner: <strong id="folderName">–</strong></span>
+  </div>
+
+  <!-- Upload -->
+  <div class="upload-zone" id="dropZone">
+    <input type="file" id="fileInput" accept="image/*" capture="environment" onchange="onFile(event)">
+    <div class="cam-icon">
+      <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+    </div>
+    <h2>Beleg fotografieren</h2>
+    <p>Tippe hier, um die Kamera zu öffnen</p>
+    <div class="or-div">oder</div>
+    <button class="btn-gallery" onclick="event.stopPropagation(); document.getElementById('galInput').click()">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+      Aus Galerie wählen
+    </button>
+    <input type="file" id="galInput" accept="image/*" style="display:none" onchange="onFile(event)">
+  </div>
+
+  <!-- Result -->
+  <div class="result" id="result">
+    <img class="preview-img" id="prevImg" src="" alt="">
+    <div class="result-body">
+
+      <div class="analyzing" id="analyzing">
+        <div class="spin"></div>
+        <span class="spin-lbl">Beleg wird analysiert…</span>
+      </div>
+
+      <div class="info-fields" id="infoFields">
+        <div class="fields-row">
+          <div class="field">
+            <label>Datum</label>
+            <input type="text" id="fDatum" placeholder="TT.MM.JJJJ" oninput="updateFilename()">
+          </div>
+          <div class="field">
+            <label>Betrag</label>
+            <input type="text" id="fBetrag" placeholder="0,00 €" oninput="updateFilename()">
+          </div>
+        </div>
+        <div class="fields-row full">
+          <div class="field">
+            <label>Händler</label>
+            <input type="text" id="fHaendler" placeholder="–" oninput="updateFilename()">
+          </div>
+        </div>
+
+        <div class="filename-box">
+          <div class="filename-lbl">Dateiname</div>
+          <div class="filename-val" id="fnVal">–</div>
+        </div>
+
+        <button class="btn-drive on" id="btnDrive" onclick="uploadToDrive()">
+          <svg viewBox="0 0 24 24"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0016.76 4H7.24a2 2 0 00-1.79 1.11z"/></svg>
+          In Google Drive ablegen
+        </button>
+      </div>
+
+      <button class="btn-analyze" id="btnAnalyze" onclick="analyze()">
+        <svg viewBox="0 0 24 24" style="width:17px;height:17px;stroke:white;fill:none;stroke-width:2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Beleg analysieren
+      </button>
+
+      <button class="btn-new" onclick="reset()">✕ Neuer Beleg</button>
+    </div>
+  </div>
+
+  <!-- Recent -->
+  <div id="recentWrap" style="display:none">
+    <div class="section-lbl">Zuletzt abgelegt</div>
+    <div id="recentList"></div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const MONTHS = [
+  "01_Januar","02_Februar","03_März","04_April",
+  "05_Mai","06_Juni","07_Juli","08_August",
+  "09_September","10_Oktober","11_November","12_Dezember"
+];
+const MONTHS_DISPLAY = [
+  "Jänner","Februar","März","April","Mai","Juni",
+  "Juli","August","September","Oktober","November","Dezember"
+];
+
+let curFile = null, curB64 = null, ready = false;
+const recent = JSON.parse(localStorage.getItem('bm_r') || '[]');
+
+window.addEventListener('DOMContentLoaded', () => {
+  const k = localStorage.getItem('bm_key') || '';
+  const u = localStorage.getItem('bm_url') || '';
+  if (k) document.getElementById('inpKey').value = k;
+  if (u) document.getElementById('inpUrl').value = u;
+  setDot();
+  updateMonthDisplay();
+  renderRecent();
+
+  const z = document.getElementById('dropZone');
+  z.addEventListener('dragover', e => { e.preventDefault(); z.classList.add('over'); });
+  z.addEventListener('dragleave', () => z.classList.remove('over'));
+  z.addEventListener('drop', e => {
+    e.preventDefault(); z.classList.remove('over');
+    const f = e.dataTransfer.files[0];
+    if (f && f.type.startsWith('image/')) onFile({ target: { files: [f] } });
+  });
+});
+
+function saveCfg() {
+  const k = document.getElementById('inpKey').value.trim();
+  const u = document.getElementById('inpUrl').value.trim();
+  if (k) localStorage.setItem('bm_key', k);
+  if (u) localStorage.setItem('bm_url', u);
+  setDot();
+  toast('Einstellungen gespeichert', 'ok');
+}
+
+function setDot() {
+  const ok = localStorage.getItem('bm_key') && localStorage.getItem('bm_url');
+  document.getElementById('cfgDot').className = 'dot ' + (ok ? 'ok' : 'warn');
+}
+
+function updateMonthDisplay() {
+  const now = new Date();
+  const m = now.getMonth();
+  const y = now.getFullYear();
+  const folderName = MONTHS[m];
+  document.getElementById('monthBadge').textContent = MONTHS_DISPLAY[m] + ' ' + y;
+  document.getElementById('folderName').textContent = folderName;
+}
+
+function onFile(e) {
+  const f = e.target.files[0];
+  if (!f) return;
+  curFile = f; ready = false;
+  const r = new FileReader();
+  r.onload = ev => {
+    curB64 = ev.target.result.split(',')[1];
+    document.getElementById('prevImg').src = ev.target.result;
+    document.getElementById('dropZone').style.display = 'none';
+    document.getElementById('result').classList.add('on');
+    document.getElementById('analyzing').classList.remove('on');
+    document.getElementById('infoFields').classList.remove('on');
+    document.getElementById('btnAnalyze').style.display = 'flex';
+  };
+  r.readAsDataURL(f);
+}
+
+function reset() {
+  curFile = null; curB64 = null; ready = false;
+  document.getElementById('dropZone').style.display = 'block';
+  document.getElementById('result').classList.remove('on');
+  document.getElementById('fileInput').value = '';
+  document.getElementById('galInput').value = '';
+}
+
+async function analyze() {
+  const key = localStorage.getItem('bm_key');
+  if (!key) { toast('Bitte API Key eintragen', 'err'); return; }
+  if (!curB64) return;
+
+  document.getElementById('btnAnalyze').style.display = 'none';
+  document.getElementById('analyzing').classList.add('on');
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': key,
+        'anthropic-version': '2023-06-01'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 200,
+        messages: [{
+          role: 'user',
+          content: [
+            { type: 'image', source: { type: 'base64', media_type: curFile.type || 'image/jpeg', data: curB64 } },
+            { type: 'text', text: 'Analysiere diesen Kassenbeleg. Antworte NUR mit JSON, kein Markdown:\n{"datum":"TT.MM.JJJJ","betrag":"XX,XX €","haendler":"Name"}' }
+          ]
+        }]
+      })
+    });
+
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message);
+
+    const parsed = JSON.parse(data.content[0].text.replace(/```json|```/g, '').trim());
+    document.getElementById('fDatum').value = parsed.datum || '';
+    document.getElementById('fBetrag').value = parsed.betrag || '';
+    document.getElementById('fHaendler').value = parsed.haendler || '';
+
+    document.getElementById('analyzing').classList.remove('on');
+    document.getElementById('infoFields').classList.add('on');
+    updateFilename();
+    ready = true;
+    toast('Beleg erkannt ✓', 'ok');
+
+  } catch (err) {
+    document.getElementById('analyzing').classList.remove('on');
+    document.getElementById('btnAnalyze').style.display = 'flex';
+    toast('Fehler: ' + err.message, 'err');
+  }
+}
+
+function buildFilename() {
+  const datum    = document.getElementById('fDatum').value.trim();
+  const betrag   = document.getElementById('fBetrag').value.trim();
+  const haendler = document.getElementById('fHaendler').value.trim();
+
+  const safeDatum    = datum.replace(/\./g, '-') || new Date().toLocaleDateString('de-AT').replace(/\./g, '-');
+  const safeBetrag   = betrag.replace(/[^0-9,\.]/g, '').replace(',', '.') || '0';
+  const safeHaendler = haendler.replace(/[^a-zA-Z0-9äöüÄÖÜß]/g, '_').substring(0, 30) || 'Beleg';
+
+  return `${safeDatum}_${safeHaendler}_${safeBetrag}EUR.jpg`;
+}
+
+function updateFilename() {
+  document.getElementById('fnVal').textContent = buildFilename();
+}
+
+async function uploadToDrive() {
+  const scriptUrl = localStorage.getItem('bm_url');
+  if (!scriptUrl) { toast('Bitte Script URL eintragen', 'err'); return; }
+  if (!curB64) return;
+
+  const btn = document.getElementById('btnDrive');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spin" style="border-color:rgba(255,255,255,0.3);border-top-color:white;width:15px;height:15px;border-width:2px;margin-right:8px"></div> Wird hochgeladen…';
+
+  const filename = buildFilename();
+
+  try {
+    const res = await fetch(scriptUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        imageBase64: curB64,
+        mimeType: curFile.type || 'image/jpeg',
+        filename
+      })
+    });
+
+    const data = await res.json();
+    if (!data.success) throw new Error(data.error || 'Upload fehlgeschlagen');
+
+    recent.unshift({
+      haendler: document.getElementById('fHaendler').value,
+      betrag: document.getElementById('fBetrag').value,
+      datum: document.getElementById('fDatum').value,
+      filename,
+      folder: data.folder
+    });
+    if (recent.length > 8) recent.pop();
+    localStorage.setItem('bm_r', JSON.stringify(recent));
+    renderRecent();
+
+    btn.innerHTML = '✓ Abgelegt in ' + (data.folder || '');
+    btn.style.background = '#27ae60';
+    toast('Gespeichert ✓', 'ok');
+    setTimeout(() => reset(), 2400);
+
+  } catch (err) {
+    btn.disabled = false;
+    btn.innerHTML = '☁️ In Google Drive ablegen';
+    btn.classList.add('on');
+    toast('Fehler: ' + err.message, 'err');
+  }
+}
+
+function renderRecent() {
+  const wrap = document.getElementById('recentWrap');
+  const list = document.getElementById('recentList');
+  if (!recent.length) { wrap.style.display = 'none'; return; }
+  wrap.style.display = 'block';
+  list.innerHTML = recent.slice(0, 5).map(r => `
+    <div class="recent-item">
+      <div class="ri-icon">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      </div>
+      <div class="ri-info">
+        <strong>${r.haendler || 'Beleg'}</strong>
+        <span>${r.datum || '–'} · ${r.folder || ''}</span>
+      </div>
+      <div class="ri-amount">${r.betrag || '–'}</div>
+      <span class="ri-check">✓</span>
+    </div>
+  `).join('');
+}
+
+let toastTimer;
+function toast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast on ' + type;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('on'), 3000);
+}
+</script>
+</body>
+</html>
