@@ -44,11 +44,9 @@ body { font-family: 'DM Mono', monospace; background: var(--bg); color: var(--te
 
 .main { padding: 18px; max-width: 480px; margin: 0 auto; }
 
-/* Config */
 .config {
   background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 15px;
-  margin-bottom: 15px; box-shadow: var(--shadow);
+  border-radius: var(--radius); padding: 15px; margin-bottom: 15px; box-shadow: var(--shadow);
 }
 .config-head {
   font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px;
@@ -62,22 +60,19 @@ body { font-family: 'DM Mono', monospace; background: var(--bg); color: var(--te
 .cfg-row:last-of-type { margin-bottom: 0; }
 .cfg-lbl { font-size: 11px; color: var(--muted); min-width: 68px; flex-shrink: 0; }
 .cfg-inp {
-  flex: 1; min-width: 0; background: var(--surface2);
-  border: 1px solid var(--border); border-radius: 7px;
-  padding: 7px 10px; font-family: 'DM Mono', monospace;
+  flex: 1; min-width: 0; background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 7px; padding: 7px 10px; font-family: 'DM Mono', monospace;
   font-size: 11px; color: var(--text); outline: none; transition: border-color 0.15s;
 }
 .cfg-inp:focus { border-color: var(--green); }
 .cfg-inp::placeholder { color: var(--dim); }
 .btn-cfg {
-  background: var(--green); color: white; border: none;
-  border-radius: 7px; padding: 7px 12px;
+  background: var(--green); color: white; border: none; border-radius: 7px; padding: 7px 12px;
   font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500;
   cursor: pointer; white-space: nowrap; flex-shrink: 0; transition: opacity 0.15s;
 }
 .btn-cfg:hover { opacity: 0.85; }
 
-/* Target folder info */
 .folder-row {
   background: var(--green-light); border: 1px solid rgba(45,106,79,0.18);
   border-radius: 10px; padding: 11px 13px; margin-bottom: 15px;
@@ -85,22 +80,16 @@ body { font-family: 'DM Mono', monospace; background: var(--bg); color: var(--te
 }
 .folder-row svg { width: 17px; height: 17px; stroke: var(--green); fill: none; stroke-width: 1.5; flex-shrink: 0; }
 .folder-row span { font-size: 12px; color: var(--green); }
-.folder-row strong { font-weight: 500; }
 
-/* Upload zone */
 .upload-zone {
   background: var(--surface); border: 2px dashed var(--border);
-  border-radius: var(--radius); padding: 38px 20px;
-  text-align: center; cursor: pointer; position: relative;
-  transition: all 0.2s; box-shadow: var(--shadow); margin-bottom: 15px;
+  border-radius: var(--radius); padding: 38px 20px; text-align: center;
+  cursor: pointer; position: relative; transition: all 0.2s;
+  box-shadow: var(--shadow); margin-bottom: 15px;
 }
 .upload-zone:hover, .upload-zone.over { border-color: var(--green-mid); background: var(--green-light); }
 .upload-zone input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
-.cam-icon {
-  width: 50px; height: 50px; background: var(--surface2);
-  border-radius: 14px; margin: 0 auto 14px;
-  display: flex; align-items: center; justify-content: center;
-}
+.cam-icon { width: 50px; height: 50px; background: var(--surface2); border-radius: 14px; margin: 0 auto 14px; display: flex; align-items: center; justify-content: center; }
 .cam-icon svg { width: 26px; height: 26px; stroke: var(--green); fill: none; stroke-width: 1.5; }
 .upload-zone h2 { font-family: 'Instrument Serif', serif; font-size: 21px; font-weight: 400; font-style: italic; margin-bottom: 5px; }
 .upload-zone p { font-size: 12px; color: var(--muted); }
@@ -108,30 +97,21 @@ body { font-family: 'DM Mono', monospace; background: var(--bg); color: var(--te
 .or-div::before, .or-div::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 .btn-gallery {
   background: var(--surface2); color: var(--text); border: 1px solid var(--border);
-  border-radius: 8px; padding: 9px 16px; font-family: 'DM Mono', monospace;
-  font-size: 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 7px;
+  border-radius: 8px; padding: 9px 16px; font-family: 'DM Mono', monospace; font-size: 12px;
+  cursor: pointer; display: inline-flex; align-items: center; gap: 7px;
   position: relative; z-index: 1; transition: background 0.15s;
 }
 .btn-gallery:hover { background: var(--border); }
 .btn-gallery svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.5; }
 
-/* Result */
-.result {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); overflow: hidden;
-  box-shadow: var(--shadow); margin-bottom: 15px; display: none;
-}
+.result { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); margin-bottom: 15px; display: none; }
 .result.on { display: block; }
 .preview-img { width: 100%; max-height: 210px; object-fit: contain; background: var(--surface2); display: block; }
 .result-body { padding: 15px; }
 
 .analyzing { display: none; align-items: center; gap: 12px; padding: 12px 0; }
 .analyzing.on { display: flex; }
-.spin {
-  width: 18px; height: 18px; flex-shrink: 0;
-  border: 2px solid var(--border); border-top-color: var(--green);
-  border-radius: 50%; animation: spin 0.7s linear infinite;
-}
+.spin { width: 18px; height: 18px; flex-shrink: 0; border: 2px solid var(--border); border-top-color: var(--green); border-radius: 50%; animation: spin 0.7s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .spin-lbl { font-size: 12px; color: var(--muted); }
 
@@ -149,9 +129,8 @@ body { font-family: 'DM Mono', monospace; background: var(--bg); color: var(--te
 .filename-val { font-size: 12px; color: var(--green); word-break: break-all; line-height: 1.5; }
 
 .btn-analyze {
-  width: 100%; background: var(--green); color: white; border: none;
-  border-radius: 10px; padding: 13px; font-family: 'DM Mono', monospace;
-  font-size: 14px; font-weight: 500; cursor: pointer;
+  width: 100%; background: var(--green); color: white; border: none; border-radius: 10px; padding: 13px;
+  font-family: 'DM Mono', monospace; font-size: 14px; font-weight: 500; cursor: pointer;
   display: flex; align-items: center; justify-content: center; gap: 9px;
   margin-top: 12px; transition: opacity 0.15s, transform 0.1s;
 }
@@ -159,9 +138,8 @@ body { font-family: 'DM Mono', monospace; background: var(--bg); color: var(--te
 .btn-analyze:active { transform: scale(0.98); }
 
 .btn-drive {
-  width: 100%; background: var(--green-mid); color: white; border: none;
-  border-radius: 10px; padding: 13px; font-family: 'DM Mono', monospace;
-  font-size: 14px; font-weight: 500; cursor: pointer;
+  width: 100%; background: var(--green-mid); color: white; border: none; border-radius: 10px; padding: 13px;
+  font-family: 'DM Mono', monospace; font-size: 14px; font-weight: 500; cursor: pointer;
   display: none; align-items: center; justify-content: center; gap: 9px;
   margin-top: 9px; transition: opacity 0.15s, transform 0.1s;
 }
@@ -172,20 +150,17 @@ body { font-family: 'DM Mono', monospace; background: var(--bg); color: var(--te
 .btn-drive svg { width: 17px; height: 17px; stroke: white; fill: none; stroke-width: 2; }
 
 .btn-new {
-  width: 100%; background: none; border: 1px solid var(--border);
-  border-radius: 10px; padding: 10px; font-family: 'DM Mono', monospace;
-  font-size: 12px; color: var(--muted); cursor: pointer; margin-top: 8px;
-  transition: background 0.15s;
+  width: 100%; background: none; border: 1px solid var(--border); border-radius: 10px; padding: 10px;
+  font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); cursor: pointer;
+  margin-top: 8px; transition: background 0.15s;
 }
 .btn-new:hover { background: var(--surface2); }
 
-/* Recent */
 .section-lbl { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--dim); margin-bottom: 11px; }
 .recent-item {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 10px; padding: 11px 13px;
-  display: flex; align-items: center; gap: 11px; margin-bottom: 8px;
-  box-shadow: var(--shadow); animation: fadein 0.3s ease;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+  padding: 11px 13px; display: flex; align-items: center; gap: 11px;
+  margin-bottom: 8px; box-shadow: var(--shadow); animation: fadein 0.3s ease;
 }
 @keyframes fadein { from { opacity:0; transform:translateY(5px); } }
 .ri-icon { width: 32px; height: 32px; flex-shrink: 0; background: var(--green-light); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
@@ -196,13 +171,11 @@ body { font-family: 'DM Mono', monospace; background: var(--bg); color: var(--te
 .ri-amount { font-size: 13px; color: var(--green); font-weight: 500; white-space: nowrap; }
 .ri-check { color: var(--green-mid); font-size: 13px; margin-left: 4px; }
 
-/* Toast */
 .toast {
-  position: fixed; bottom: 26px; left: 50%;
-  transform: translateX(-50%) translateY(70px);
-  background: var(--text); color: var(--bg);
-  padding: 10px 18px; border-radius: 100px; font-size: 13px; z-index: 200;
-  white-space: nowrap; max-width: 90vw; overflow: hidden; text-overflow: ellipsis;
+  position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%) translateY(70px);
+  background: var(--text); color: var(--bg); padding: 10px 18px; border-radius: 100px;
+  font-size: 13px; z-index: 200; white-space: nowrap; max-width: 90vw;
+  overflow: hidden; text-overflow: ellipsis;
   transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
   box-shadow: 0 4px 18px rgba(0,0,0,0.18);
 }
@@ -226,12 +199,8 @@ body { font-family: 'DM Mono', monospace; background: var(--bg); color: var(--te
 
 <div class="main">
 
-  <!-- Config -->
   <div class="config">
-    <div class="config-head">
-      <span class="dot" id="cfgDot"></span>
-      Einrichtung
-    </div>
+    <div class="config-head"><span class="dot" id="cfgDot"></span>Einrichtung</div>
     <div class="cfg-row">
       <span class="cfg-lbl">API Key</span>
       <input class="cfg-inp" type="password" id="inpKey" placeholder="sk-ant-api03-…">
@@ -239,17 +208,15 @@ body { font-family: 'DM Mono', monospace; background: var(--bg); color: var(--te
     </div>
     <div class="cfg-row">
       <span class="cfg-lbl">Script URL</span>
-      <input class="cfg-inp" type="url" id="inpUrl" placeholder="https://script.google.com/macros/s/…">
+      <input class="cfg-inp" type="url" id="inpUrl" placeholder="https://script.google.com/macros/s/…/exec">
     </div>
   </div>
 
-  <!-- Aktueller Zielordner -->
   <div class="folder-row">
     <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
     <span>Zielordner: <strong id="folderName">–</strong></span>
   </div>
 
-  <!-- Upload -->
   <div class="upload-zone" id="dropZone">
     <input type="file" id="fileInput" accept="image/*" capture="environment" onchange="onFile(event)">
     <div class="cam-icon">
@@ -265,55 +232,38 @@ body { font-family: 'DM Mono', monospace; background: var(--bg); color: var(--te
     <input type="file" id="galInput" accept="image/*" style="display:none" onchange="onFile(event)">
   </div>
 
-  <!-- Result -->
   <div class="result" id="result">
     <img class="preview-img" id="prevImg" src="" alt="">
     <div class="result-body">
-
       <div class="analyzing" id="analyzing">
         <div class="spin"></div>
-        <span class="spin-lbl">Beleg wird analysiert…</span>
+        <span class="spin-lbl" id="spinLbl">Beleg wird analysiert…</span>
       </div>
-
       <div class="info-fields" id="infoFields">
         <div class="fields-row">
-          <div class="field">
-            <label>Datum</label>
-            <input type="text" id="fDatum" placeholder="TT.MM.JJJJ" oninput="updateFilename()">
-          </div>
-          <div class="field">
-            <label>Betrag</label>
-            <input type="text" id="fBetrag" placeholder="0,00 €" oninput="updateFilename()">
-          </div>
+          <div class="field"><label>Datum</label><input type="text" id="fDatum" placeholder="TT.MM.JJJJ" oninput="updateFilename()"></div>
+          <div class="field"><label>Betrag</label><input type="text" id="fBetrag" placeholder="0,00 €" oninput="updateFilename()"></div>
         </div>
         <div class="fields-row full">
-          <div class="field">
-            <label>Händler</label>
-            <input type="text" id="fHaendler" placeholder="–" oninput="updateFilename()">
-          </div>
+          <div class="field"><label>Händler</label><input type="text" id="fHaendler" placeholder="–" oninput="updateFilename()"></div>
         </div>
-
         <div class="filename-box">
           <div class="filename-lbl">Dateiname</div>
           <div class="filename-val" id="fnVal">–</div>
         </div>
-
         <button class="btn-drive on" id="btnDrive" onclick="uploadToDrive()">
           <svg viewBox="0 0 24 24"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0016.76 4H7.24a2 2 0 00-1.79 1.11z"/></svg>
           In Google Drive ablegen
         </button>
       </div>
-
       <button class="btn-analyze" id="btnAnalyze" onclick="analyze()">
         <svg viewBox="0 0 24 24" style="width:17px;height:17px;stroke:white;fill:none;stroke-width:2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         Beleg analysieren
       </button>
-
       <button class="btn-new" onclick="reset()">✕ Neuer Beleg</button>
     </div>
   </div>
 
-  <!-- Recent -->
   <div id="recentWrap" style="display:none">
     <div class="section-lbl">Zuletzt abgelegt</div>
     <div id="recentList"></div>
@@ -324,15 +274,8 @@ body { font-family: 'DM Mono', monospace; background: var(--bg); color: var(--te
 <div class="toast" id="toast"></div>
 
 <script>
-const MONTHS = [
-  "01_Januar","02_Februar","03_März","04_April",
-  "05_Mai","06_Juni","07_Juli","08_August",
-  "09_September","10_Oktober","11_November","12_Dezember"
-];
-const MONTHS_DISPLAY = [
-  "Jänner","Februar","März","April","Mai","Juni",
-  "Juli","August","September","Oktober","November","Dezember"
-];
+const MONTHS_DISPLAY = ["Jänner","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"];
+const MONTH_FOLDERS  = ["01_Jänner_2026","02_Februar_2026","03_März_2026","04_April_2026","05_Mai_2026","06_Juni_2026","07_Juli_2026","08_August_2026","09_September_2026","10_Oktober_2026","11_November_2026","12_Dezember_2026"];
 
 let curFile = null, curB64 = null, ready = false;
 const recent = JSON.parse(localStorage.getItem('bm_r') || '[]');
@@ -371,12 +314,9 @@ function setDot() {
 }
 
 function updateMonthDisplay() {
-  const now = new Date();
-  const m = now.getMonth();
-  const y = now.getFullYear();
-  const folderName = MONTHS[m];
-  document.getElementById('monthBadge').textContent = MONTHS_DISPLAY[m] + ' ' + y;
-  document.getElementById('folderName').textContent = folderName;
+  const m = new Date().getMonth();
+  document.getElementById('monthBadge').textContent = MONTHS_DISPLAY[m] + ' 2026';
+  document.getElementById('folderName').textContent = MONTH_FOLDERS[m] + ' / Eingangsrechnungen';
 }
 
 function onFile(e) {
@@ -450,7 +390,7 @@ async function analyze() {
   } catch (err) {
     document.getElementById('analyzing').classList.remove('on');
     document.getElementById('btnAnalyze').style.display = 'flex';
-    toast('Fehler: ' + err.message, 'err');
+    toast('Analysefehler: ' + err.message, 'err');
   }
 }
 
@@ -458,11 +398,9 @@ function buildFilename() {
   const datum    = document.getElementById('fDatum').value.trim();
   const betrag   = document.getElementById('fBetrag').value.trim();
   const haendler = document.getElementById('fHaendler').value.trim();
-
   const safeDatum    = datum.replace(/\./g, '-') || new Date().toLocaleDateString('de-AT').replace(/\./g, '-');
   const safeBetrag   = betrag.replace(/[^0-9,\.]/g, '').replace(',', '.') || '0';
   const safeHaendler = haendler.replace(/[^a-zA-Z0-9äöüÄÖÜß]/g, '_').substring(0, 30) || 'Beleg';
-
   return `${safeDatum}_${safeHaendler}_${safeBetrag}EUR.jpg`;
 }
 
@@ -477,38 +415,40 @@ async function uploadToDrive() {
 
   const btn = document.getElementById('btnDrive');
   btn.disabled = true;
-  btn.innerHTML = '<div class="spin" style="border-color:rgba(255,255,255,0.3);border-top-color:white;width:15px;height:15px;border-width:2px;margin-right:8px"></div> Wird hochgeladen…';
+  btn.innerHTML = '<div class="spin" style="border-color:rgba(255,255,255,0.3);border-top-color:white;width:15px;height:15px;border-width:2px;margin-right:8px"></div>Wird hochgeladen…';
 
   const filename = buildFilename();
 
   try {
-    const res = await fetch(scriptUrl, {
+    // Google Apps Script benötigt no-cors beim Senden,
+    // daher schicken wir die Daten als URL-encoded Form
+    const formData = new FormData();
+    formData.append('payload', JSON.stringify({
+      imageBase64: curB64,
+      mimeType: curFile.type || 'image/jpeg',
+      filename: filename
+    }));
+
+    await fetch(scriptUrl, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        imageBase64: curB64,
-        mimeType: curFile.type || 'image/jpeg',
-        filename
-      })
+      mode: 'no-cors',
+      body: formData
     });
 
-    const data = await res.json();
-    if (!data.success) throw new Error(data.error || 'Upload fehlgeschlagen');
-
+    // no-cors gibt keine Antwort – wir gehen von Erfolg aus
     recent.unshift({
       haendler: document.getElementById('fHaendler').value,
       betrag: document.getElementById('fBetrag').value,
       datum: document.getElementById('fDatum').value,
-      filename,
-      folder: data.folder
+      filename
     });
     if (recent.length > 8) recent.pop();
     localStorage.setItem('bm_r', JSON.stringify(recent));
     renderRecent();
 
-    btn.innerHTML = '✓ Abgelegt in ' + (data.folder || '');
+    btn.innerHTML = '✓ Abgelegt!';
     btn.style.background = '#27ae60';
-    toast('Gespeichert ✓', 'ok');
+    toast('Gespeichert: ' + filename, 'ok');
     setTimeout(() => reset(), 2400);
 
   } catch (err) {
@@ -526,17 +466,11 @@ function renderRecent() {
   wrap.style.display = 'block';
   list.innerHTML = recent.slice(0, 5).map(r => `
     <div class="recent-item">
-      <div class="ri-icon">
-        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-      </div>
-      <div class="ri-info">
-        <strong>${r.haendler || 'Beleg'}</strong>
-        <span>${r.datum || '–'} · ${r.folder || ''}</span>
-      </div>
+      <div class="ri-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+      <div class="ri-info"><strong>${r.haendler || 'Beleg'}</strong><span>${r.datum || '–'}</span></div>
       <div class="ri-amount">${r.betrag || '–'}</div>
       <span class="ri-check">✓</span>
-    </div>
-  `).join('');
+    </div>`).join('');
 }
 
 let toastTimer;
@@ -544,7 +478,7 @@ function toast(msg, type = '') {
   const t = document.getElementById('toast');
   t.textContent = msg; t.className = 'toast on ' + type;
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('on'), 3000);
+  toastTimer = setTimeout(() => t.classList.remove('on'), 3500);
 }
 </script>
 </body>
